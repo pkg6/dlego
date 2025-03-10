@@ -5,6 +5,7 @@ import (
 	"github.com/go-acme/lego/v4/certificate"
 	"github.com/pkg/errors"
 	"github.com/pkg6/dlego"
+	"github.com/pkg6/dlego/common/tencentcloud"
 	"slices"
 	"strings"
 )
@@ -19,11 +20,11 @@ func (p *Provider) WithLogger(logger dlego.ILogger) {
 }
 
 func (p *Provider) Deploy(ctx context.Context, certificate *certificate.Resource) error {
-	clients, err := createClients(p.Config.SecretId, p.Config.SecretKey)
+	clients, err := tencentcloud.NewClientsNoRegion(p.Config.SecretId, p.Config.SecretKey)
 	if err != nil {
 		return err
 	}
-	upres, err := Upload(clients.ssl, string(certificate.Certificate), string(certificate.PrivateKey))
+	upres, err := tencentcloud.SSLUploadCertificate(clients.SSL, string(certificate.Certificate), string(certificate.PrivateKey))
 	if err != nil {
 		return errors.Wrap(err, "failed to upload certificate file")
 	}
