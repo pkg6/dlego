@@ -13,6 +13,7 @@ require (
 	github.com/pkg/sftp v1.13.7
 	github.com/povsister/scp v0.0.0-20240802064259-28781e87b246
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdn v1.0.1115
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/clb v1.0.1115
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.1115
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssl v1.0.1115
 	golang.org/x/crypto v0.31.0

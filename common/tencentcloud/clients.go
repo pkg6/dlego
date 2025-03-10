@@ -2,6 +2,7 @@ package tencentcloud
 
 import (
 	tcCdn "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdn/v20180606"
+	tcClb "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/clb/v20180317"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	tcSsl "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssl/v20191205"
@@ -10,6 +11,7 @@ import (
 type Clients struct {
 	SSL *tcSsl.Client
 	CDN *tcCdn.Client
+	CLB *tcClb.Client
 }
 
 func NewClientsNoRegion(secretId, secretKey string) (*Clients, error) {
@@ -22,7 +24,11 @@ func NewClientsNoRegion(secretId, secretKey string) (*Clients, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Clients{SSL: sslClient, CDN: cdnClient}, nil
+	clbClient, err := tcClb.NewClient(credential, "", profile.NewClientProfile())
+	if err != nil {
+		return nil, err
+	}
+	return &Clients{SSL: sslClient, CDN: cdnClient, CLB: clbClient}, nil
 }
 
 func NewClients(secretId, secretKey, region string) (*Clients, error) {
@@ -35,5 +41,9 @@ func NewClients(secretId, secretKey, region string) (*Clients, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Clients{SSL: sslClient, CDN: cdnClient}, nil
+	clbClient, err := tcClb.NewClient(credential, region, profile.NewClientProfile())
+	if err != nil {
+		return nil, err
+	}
+	return &Clients{SSL: sslClient, CDN: cdnClient, CLB: clbClient}, nil
 }
